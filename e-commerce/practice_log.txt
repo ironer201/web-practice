@@ -13,8 +13,6 @@ Things I learn from this project:
 CSS bug:
 * After the cart is pull from the right side you may notice grid display change is should be constant when the cart is opening but it is not. 
 
-
-
 Javascript Bug:
 * The sort of the left is not work with the drop down menu sorting
 
