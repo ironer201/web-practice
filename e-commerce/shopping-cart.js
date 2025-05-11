@@ -6,7 +6,7 @@ const products = [
         price: 349.99,
         description: "12th Gen Intel Core i7 Processor, 12 Cores (8P+4E), up to 5.0 GHz",
         processor: "I7",
-        availability: "stock-in",
+        availability: "stock-in"
     },
     {
         imgSrc: "pic/1TB_SSD.jpeg",
@@ -16,7 +16,8 @@ const products = [
         description: "PCIe 4.0 NVMe SSD, Read: 7000MB/s, Write: 5000MB/s",
         processor: null,
         availability: "stock-in",
-        ssd: "1TB"
+        ram: null,
+        ssd: "ssd-1TB"
     },
     {
         imgSrc: "pic/Ryzen 5.jpg",
@@ -25,7 +26,7 @@ const products = [
         price: 299.00,
         description: "8-Core AMD Ryzen 7 Desktop Processor, 16 Threads",
         processor: "I5",
-        availability: "pre-order",
+        availability: "pre-order"
     },
     {
         imgSrc: "pic/32GB_Ram.jpg",
@@ -35,7 +36,7 @@ const products = [
         description: "RGB DDR4 16GB 3200MHz, CL-16, 2x16GB Gaming Kit",
         processor: null,
         availability: "stock-in",
-        ram: "32GB"
+        ram: "ram-32GB"
     },
     {
         imgSrc: "pic/asus-nvidia-geforce-rtx-3060-v2-oc-edition-12gb-11642318330.png",
@@ -43,10 +44,7 @@ const products = [
         title: "NVIDIA RTX 3060 Ti",
         price: 399.99,
         description: "8GB GDDR6, 4864 CUDA Cores, Boost Clock 1665 MHz",
-        processor: null,
-        availability: "stock-out",
-        ram: null,
-        ssd: null
+        availability: "stock-out"
     },
     {
         imgSrc: "pic/i7.png",
@@ -55,9 +53,7 @@ const products = [
         price: 349.99,
         description: "12th Gen Intel Core i7 Processor, 12 Cores (8P+4E), up to 5.0 GHz",
         processor: "I7",
-        availability: "stock-out",
-        ram: null,
-        ssd: null
+        availability: "stock-out"
     },
     {
         imgSrc: "pic/1TB_SSD.jpeg",
@@ -68,7 +64,7 @@ const products = [
         processor: null,
         availability: "stock-in",
         ram: null,
-        ssd: "1TB"
+        ssd: "ssd-1TB"
     },
     {
         imgSrc: "pic/Ryzen 5.jpg",
@@ -77,7 +73,7 @@ const products = [
         price: 299.00,
         description: "8-Core AMD Ryzen 7 Desktop Processor, 16 Threads",
         processor: "I5",
-        availability: "stock-in",
+        availability: "stock-in"
     },
     {
         imgSrc: "pic/32GB_Ram.jpg",
@@ -85,6 +81,7 @@ const products = [
         title: "Corsair 32GB DDR4 Ram",
         price: 39.00,
         description: "RGB DDR4 16GB 3200MHz, CL-16, 2x16GB Gaming Kit",
+        processor: null,
         availability: "stock-in",
         ram: "ram-32GB"
     },
@@ -112,7 +109,7 @@ function createProductCard(product) {
             <h3 class="product-title">${product.title}</h3>
             <div class="product-price">$${product.price.toFixed(2)}</div>
             <p class="product-description">${product.description}</p>
-            <button class="add-to-cart">Add to Cart</button>
+            <button class="add-to-cart" data-title="${product.title}">Add to Cart</button>
         </div>
     `;
     return card;
@@ -125,17 +122,32 @@ document.addEventListener('DOMContentLoaded', function() {
     const close = document.getElementById('close');
     const container = document.getElementById('product-container');
 
-    if (!container) return console.error('Product container not found');
-    if (!dropdown) return console.error('Dropdown not found');
-    if (!addCart || !cart || !close) return console.error('Cart elements not found');
 
     const originalProducts = [...products];
+    const cartItems = new Map(); // Map to store product title and quantity
 
     function renderProducts(productsToRender) {
         container.innerHTML = '';
         productsToRender.forEach(product => {
             container.appendChild(createProductCard(product));
         });
+    }
+    //practice this line
+    function renderCart() {
+        const cartList = cart.querySelector('.cart-list') || document.createElement('div');
+        cartList.className = 'cart-list';
+        cartList.innerHTML = '';
+        cartItems.forEach((quantity, title) => {
+            cartList.innerHTML += `
+                <div class="list">
+                    <p>${title}<span class="space-01"> X </span><span class="space-02">${quantity}</span></p>
+                </div>
+            `;
+        });
+        if (!cart.contains(cartList)) {
+            const sum = cart.querySelector('.sum');
+            cart.insertBefore(cartList, sum);
+        }
     }
 
     renderProducts(products);
@@ -192,7 +204,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     const openCart = () => {
-        cart.style.display = 'flex';
+        cart.style.display = 'block';
         setTimeout(() => {
             cart.classList.add('open');
             document.body.classList.add('cart-open');
@@ -212,6 +224,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
     container.addEventListener('click', function(e) {
         if (e.target.classList.contains('add-to-cart')) {
+            const title = e.target.dataset.title;
+            cartItems.set(title, (cartItems.get(title) || 0) + 1);
+            renderCart();
             openCart();
         }
     });
