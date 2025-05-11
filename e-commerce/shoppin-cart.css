@@ -515,25 +515,25 @@ li :hover {
     opacity: 0; /* Hidden */
     visibility: hidden; /* Not interactive */
     transition: transform 0.3s ease, opacity 0.3s ease, visibility 0.3s ease; /* Smooth slide and fade */
-    padding: 20px;
     gap: 10px;
     overflow-y: auto;
+    display: flex;
+    flex-direction: column;
 
 }
 .cart .close{
-    width: 50px;
-    height: 30px;
-    margin-right: 10px;
-    margin-top: 10px;
-    display: flex;
+    width: 60px;
+    height: auto;
+    padding: 10px;
     color: white;
-    justify-content: center;
-    align-items: center;
-    position: absolute;
-    right: 0;
     background-color: black;
     border-radius: 7px;
     cursor: pointer;
+    /* visibility: hidden; */
+    justify-content: flex-end;
+    text-align: center;
+    margin-left: 210px;
+    margin-top: 10px;
 }
 .cart .sum{
     position: absolute;
@@ -543,6 +543,26 @@ li :hover {
 .cart .sum p{
     font-size: 25px;
 }
+.cart .list{
+    width: 100%;
+    height: auto;
+    background-color: white;
+    margin-bottom: 10px;
+    padding-left: 10px;
+    margin-top: 30px;
+
+}
+.cart .list .space-01{
+
+    margin-left: 20px;
+
+}
+.cart .list .space-02{
+
+    margin-left: 40px;
+
+}
+
 .cart.open {
     transform: translateX(0); /* Slide in */
     opacity: 1; /* Visible */
