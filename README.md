@@ -6,3 +6,4 @@ In here I upload the web project and the web function that I practice a here
 * Color Button // HTML CSS 
 * Restaurant // HTML CSS
 * Dark mode toggle //HTML CSS
+* Table Row manipulation // HTML CSS Javascript [Javascript Table Row function used built in]
