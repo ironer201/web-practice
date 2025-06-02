@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Creating Row</title>
+    <style>
+        *{
+            margin: 0;
+        }
+        .container{
+            width: 100%;
+            height: 600px;
+            display: flex;
+            justify-content: center;
+            /* background-color: red; */
+            overflow-y: auto;
+        }
+        table{
+            margin-top: 15px;
+            width: 40%;
+            height: 10px;
+            border: 3px solid black;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 3px solid black;
+            text-align: center;
+
+            padding: 15px;
+            font-size: 16px;
+        } 
+        th:nth-child(1){width: 15%;}
+        th:nth-child(2){width: 60%;}
+        th:nth-child(3){width: 25%;}
+        .btn{
+            width: 100%;
+            display: flex;
+            justify-content: end;
+        }
+        #btn-add{
+            margin-right: 300px;
+            margin-top: 20px;
+            padding: 20px;
+            border-radius: 10px;
+        }
+        #btn-save{
+            margin-top: 20px;
+            padding: 20px;
+            border-radius: 10px;
+            right: 200px;
+            position: relative;   
+        }
+        #btn-edit{
+            margin-top: 20px;
+            padding: 20px;
+            border-radius: 10px;
+            right: 100px;
+            position: relative;   
+        }
+        input {
+      padding: 15px;
+      font-size: 16px;
+      border: none;
+      resize: none;
+      outline: none;
+      transition: 0.3s ease;
+    }
+    input[type="number"]::-webkit-inner-spin-button,
+    input[type="number"]::-webkit-outer-spin-button{
+        -webkit-appearance:none;
+    }
+
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <table id="table">
+            <thead>
+                <th id="id">ID</th>
+                <th id="name">Name</th>
+                <th id="ad">Admission Time</th>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+    <div class="btn">
+        <button id="btn-add">Add Row</button>
+        <button id="btn-save">Save</button>
+        <button id="btn-edit">Edit</button>
+    </div>
+    <script>
+        const table = document.getElementById("table");
+        const btnadd = document.getElementById("btn-add");
+        const btnsave = document.getElementById("btn-save");
+        const btnedit = document.getElementById("btn-edit");
+        const tbody = table.querySelector('tbody'); // get the tbody element
+
+        //Create tbody if it doesn't exits
+        
+        btnadd.addEventListener("click",function(){
+            // use proper case for insert row and insertcell
+            const newRow = table.getElementsByTagName('tbody')[0].insertRow(-1);
+
+            //create cells with input field
+            const cell1 = newRow.insertCell(0);
+            const cell2 = newRow.insertCell(1);
+            const cell3 = newRow.insertCell(2);
+
+            cell1.innerHTML = `<input type="number" placeholder = "Enter ID">`;
+            cell2.innerHTML = `<input type = "text" placeholder = "Enter name">`;
+            cell3.innerHTML = `<input type = "date">`;
+        });
+        btnsave.addEventListener("click",function(){
+            const rows = table.getElementsByTagName('tbody')[0].rows;
+
+            for(let i = 0;i < rows.length;i++){
+                const row = rows[i];
+
+                const id   = row.cells[0].querySelector('input')?.value || row.cells[0].innerText;
+                const name = row.cells[1].querySelector('input')?.value || row.cells[1].innerText;
+                const time = row.cells[2].querySelector('input')?.value || row.cells[2].innerText;
+
+                row.cells[0].innerHTML = id;
+                row.cells[1].innerHTML = name;
+                row.cells[2].innerHTML = time;
+            }
+        });
+        //edit op
+        btnedit.addEventListener("click",function(e){
+            e.preventdefault();
+            const rows = tbody.rows;
+
+            for(let i = 0;i< rows.length; i++){
+                const row = rows[i];
+                const id = row.cells[0].innerText;
+                const name = row.cells[1].innerText;
+                const time = row.cells[2].innerText;
+
+                //replace cell
+                row.cells[0].innerHTML = `<input type = "number" placeholder = "Enter ID" value = "${id}">`;
+                row.cells[1].innerHTML = `<input type = "text" placeholder = "Enter name value = "${name}">`;
+                row.cells[2].innerHTML = `<input type = "date" value = "${time}">`;
+            }
+        });
+    </script>
+</body>
+</html>
