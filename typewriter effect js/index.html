@@ -1,1 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Typing Animation</title>
+    <link rel="stylesheet" href="type.css">
+</head>
+<body>
+    <div class="container">
+        <p class="text" id="type-target"></p>
+    </div>
+    <script>
+        const text = "Typewriter CSS";
+        const target = document.getElementById("type-target");
+        let index = 0;
 
+        function type(){
+            if(index < text.length){
+                target.textContent+=text.charAt(index);
+                index++;
+                setTimeout(type,100);
+            }
+        }
+        type();
+    </script>
+</body>
+</html>
